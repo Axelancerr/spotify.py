@@ -55,8 +55,8 @@ class Track(URIBase):  # pylint: disable=too-many-instance-attributes
         )
         self.artist = artists[-1] if artists else None
 
-        album_ = data.pop("album", album)
-        self.album = Album(client, album_)
+        album_ = data.pop("album", None)
+        self.album = Album(client, album_) if album_ else album
 
         self.id = data.pop("id", None)  # pylint: disable=invalid-name
         self.name = data.pop("name", None)
