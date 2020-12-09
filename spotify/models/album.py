@@ -49,11 +49,7 @@ class Album(URIBase, AsyncIterable):  # pylint: disable=too-many-instance-attrib
         self.group = data.pop("album_group", None)
         self.artists = [Artist(client, artist) for artist in data.pop("artists", [])]
 
-        if self.artists:
-            self.artist = self.artists[0]
-        else:
-            self.artist = None
-
+        self.artist = self.artists[0] if self.artists else None
         self.markets = data.pop("avaliable_markets", None)
         self.url = data.pop("external_urls").get("spotify", None)
         self.id = data.pop("id", None)  # pylint: disable=invalid-name
@@ -62,7 +58,7 @@ class Album(URIBase, AsyncIterable):  # pylint: disable=too-many-instance-attrib
         self.uri = data.pop("uri", None)
         self.release_date = data.pop("release_date", None)
         self.release_date_precision = data.pop("release_date_precision", None)
-        self.images = list(Image(**image) for image in data.pop("images", []))
+        self.images = [Image(**image) for image in data.pop("images", [])]
         self.restrictions = data.pop("restrictions", None)
 
         # Full object attributes
